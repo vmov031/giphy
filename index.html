@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Giphy Glee</title>
+  <style type="text/css">
+    button,
+    div,
+    form,
+    input {
+      margin: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+  <button data-topic="dancing" data-state="still">olé</button>
+  <button data-topic="swimming pool" data-state="still">take a dip</button>
+  <button data-topic="puppies" data-state="still">swoon</button>
+  
+
+    <!-- Movies will Get Dumped Dere -->
+    <div id="movies-view"></div>
+
+    <!-- Rendered Buttons will get Dumped Here  -->
+    <div id="buttons-view"></div>
+
+    <form id="topic-form">
+      <label for="topic-input">Add a Gif topic</label>
+      <input type="text" id="topic-input"><br>
+
+      <input id="add-topic" type="submit" value="Add a Gif topic">
+    </form>
+    <div id="gifs-appear-here">
+  </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    var topics = [];
+
+    $("button").on("click", function() {
+    
+      var topic = $(this).attr("data-topic");
+
+      var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+        topic + "&api_key=gocibbuNgnNEf4PyefQBE0pwlZ4QgkRL&limit=10";
+      $.ajax({
+          url: queryURL,
+          method: "GET"
+        }).done(function(response) {
+          console.log(queryURL);
+
+          console.log(response);
+          // storing the data from the AJAX request in the results variable
+          var results = response.data;
+
+          // Looping through each result item
+          for (var i = 0; i < results.length; i++) {
+
+            // Creating and storing a div tag
+            var topicDiv = $("<div>");
+
+            // Creating a paragraph tag with the result item's rating
+            var p = $("<p>").text("Rating: " + results[i].rating);
+
+            // Creating and storing an image tag
+            var topicImage = $("<img>");
+            // Setting the src attribute of the image to a property pulled off the result item
+            topicImage.attr("src", results[i].images.fixed_height_still.url);
+
+            // Appending the paragraph and image tag to the animalDiv
+            topicDiv.append(p);
+            topicDiv.append(topicImage);
+
+            // Prependng the animalDiv to the HTML page in the "#gifs-appear-here" div
+            $("#gifs-appear-here").prepend(topicDiv);
+          }
+        });
+      });
+
+    function searchGifs (topic) {
+
+      var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+        topic + "&api_key=gocibbuNgnNEf4PyefQBE0pwlZ4QgkRL&limit=10";
+      $.ajax({
+          url: queryURL,
+          method: "GET"
+        }).done(function(response) {
+          console.log(queryURL);
+
+          console.log(response);
+
+           var results = response.data;
+
+          // Looping through each result item
+          for (var i = 0; i < results.length; i++) {
+
+            // Creating and storing a div tag
+            var topicDiv = $("<div>");
+
+            // Creating a paragraph tag with the result item's rating
+            var p = $("<p>").text("Rating: " + results[i].rating);
+
+            // Creating and storing an image tag
+            var topicImage = $("<img>");
+            // Setting the src attribute of the image to a property pulled off the result item
+            topicImage.attr("src", results[i].images.fixed_height_still.url);
+
+            // Appending the paragraph and image tag to the animalDiv
+            topicDiv.append(p);
+            topicDiv.append(topicImage);
+
+            // Prependng the animalDiv to the HTML page in the "#gifs-appear-here" div
+            $("#gifs-appear-here").prepend(topicDiv);
+}
+    });
+    }
+
+    function renderButtons(){
+      for (var i = 0; i < topics.length; i++) {
+      var a = $("<button>");
+      a.addClass("topic");
+      a.attr("data-topic", topics[i]);
+      a.text(topics[i]);
+      $("buttons-view").append(a);
+    }
+  }
+
+    $("#add-topic").on("click", function(event){
+      event.preventDefault();
+      var inputTopic = $("#topic-input").val().trim();
+      searchGifs(inputTopic);
+      topics.push(inputTopic);
+
+
+      renderButtons();
+
+    });
+    
+
+</script>
+</div>
+</body>
+
+</html>
