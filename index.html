@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Giphy Glee</title>
+  <title>Giphy Buttons</title>
   <style type="text/css">
     button,
     div,
@@ -21,7 +21,7 @@
   <button data-topic="dancing" data-state="still">olé</button>
   <button data-topic="swimming pool" data-state="still">take a dip</button>
   <button data-topic="puppies" data-state="still">swoon</button>
-  
+  <div id="buttons-view"></div>
   <form id="topic-form">
     <label for="topic-input">Add a Gif topic</label>
     <input type="text" id="topic-input"><br>
@@ -98,10 +98,9 @@
     function renderButtons(){
       for (var i = 0; i < topics.length; i++) {
       var a = $("<button>");
-      a.addClass("topic");
       a.attr("data-topic", topics[i]);
       a.text(topics[i]);
-      $("buttons-view").append(a);
+      $("#buttons-view").append(a);
     }
   }
 
@@ -110,7 +109,6 @@
       var inputTopic = $("#topic-input").val().trim();
       searchGifs(inputTopic);
       topics.push(inputTopic);
-
 
       renderButtons();
 
