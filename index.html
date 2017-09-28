@@ -18,9 +18,9 @@
 
   <div class="container">
 
-  <button data-topic="dancing" data-state="still">olé</button>
-  <button data-topic="swimming pool" data-state="still">take a dip</button>
-  <button data-topic="puppies" data-state="still">swoon</button>
+  <button data-topic="dancing" data-state="still" class="gif">olé</button>
+  <button data-topic="swimming pool" data-state="still" class="gif">take a dip</button>
+  <button data-topic="puppies" data-state="still" class="gif">swoon</button>
   <div id="buttons-view"></div>
   <form id="topic-form">
     <label for="topic-input">Add a Gif topic</label>
@@ -98,6 +98,7 @@
     function renderButtons(){
       for (var i = 0; i < topics.length; i++) {
       var a = $("<button>");
+      a.addClass("gif");
       a.attr("data-topic", topics[i]);
       a.text(topics[i]);
       $("#buttons-view").append(a);
@@ -112,6 +113,17 @@
 
       renderButtons();
 
+    });
+
+    $(".gif").on("click", function(){
+      var state = $(this).attr("data-state");
+      if (state === "still") {
+        $(this).attr("src", $(this).attr("data-animate"));
+        $(this).attr("data-state", "animate");
+      } else {
+        $(this).attr("src", $(this).attr("data-still"));
+        $(this).attr("data-state", "still");
+    }
     });
     
 
